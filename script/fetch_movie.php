@@ -2,6 +2,8 @@
 
 define("ROOT", dirname(__DIR__));
 
+require ROOT.'/logic/logic.php';
+
 if (!isset($argv[1])) {
     echo "Usage: $argv[0] movie_url\n";
     exit;
