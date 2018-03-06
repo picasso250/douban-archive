@@ -66,13 +66,34 @@
         <p>只会拉取第一页的影评</p>
         <p>请注意，如果此电影在棺材里已经存在，则会覆盖。请慎用。</p>
     </div>
-    <form class="" action="?" method="post">
+    <form id='add-movie-form' class="" action="?" method="post">
         <div class="">
             <span>请输入豆瓣电影地址</span>
-            <input type="text" name="url" value="">
+            <br>
+            <input type="text" name="url" value="" style="width:22em;">
         </div>
         <input type="submit" name="" value="埋入棺材">
+        <div >
+            <pre class="task_result"></pre>
+        </div>
     </form>
+    <script type="text/javascript">
+        var form = $('#add-movie-form').submit(function (e) {
+            e.preventDefault();
+            $.post('?', form.serialize(), function (id) {
+                $('.task_result').html("task_id:"+id);
+
+            });
+        });
+        function look_result(id) {
+            $.get('/task-result/'+id, function (ret) {
+                $('.task_result').html(ret);
+                setTimeout(function () {
+                    look_result(id);
+                }, 1000);
+            });
+        }
+    </script>
 
 </body>
 

@@ -10,7 +10,9 @@ if (!isset($argv[1])) {
 }
 
 $url = $argv[1];
-$r = fetch_movie($url);
+$r = fetch_movie($url, function ($msg) {
+    echo "$msg\n";
+});
 if ($r!==true) {
     echo "$r\n";
     exit(1);

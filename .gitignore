@@ -1,2 +1,4 @@
+.env
 _j_review/*
 _movie/*
+vendor
