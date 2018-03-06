@@ -2,6 +2,7 @@
 
 use Lib\RegexRouter;
 use Lib\Request;
+use Lib\Response;
 use Lib\Container;
 
 define("ROOT", dirname(__DIR__));
@@ -26,12 +27,14 @@ RegexRouter::add('#^/$#', function ($params) {
     $redis->lpush(TASK_LIST_NAME, json_encode(['type'=>'movie', 'url' => $url, 'uid' => $uid]));
     echo $uid;
 }, 'POST');
-RegexRouter::add('#^/task-result/(\d+)$#', function ($params) {
+RegexRouter::add('#^/task-result/(.+)$#', function ($params) {
     $task_id = $params[1];
     $redis = Container::getInstance()->get('redis');
-    $msg = $redis->get(TASK_RESULT_PREFIX.":$task_id");
-    echo $msg;
-}, 'POST');
+    $json_raw = $redis->get(TASK_RESULT_PREFIX.":$task_id");
+    if (!$json_raw) $r = [];
+    else $r = json_decode($json_raw, true);
+    Response::echoJson($r);
+}, 'GET');
 RegexRouter::add('#^/subject/(\d+)/$#', function ($params) {
     $id = $params[1];
     $file = ROOT.'/_movie/'.$id;

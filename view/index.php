@@ -82,15 +82,16 @@
             e.preventDefault();
             $.post('?', form.serialize(), function (id) {
                 $('.task_result').html("task_id:"+id);
-
+                look_result(id);
             });
         });
         function look_result(id) {
             $.get('/task-result/'+id, function (ret) {
-                $('.task_result').html(ret);
-                setTimeout(function () {
-                    look_result(id);
-                }, 1000);
+                $('.task_result').html(ret.msg);
+                if (ret.result !== true)
+                    setTimeout(function () {
+                        look_result(id);
+                    }, 1000);
             });
         }
     </script>
