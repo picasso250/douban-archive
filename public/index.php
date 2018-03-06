@@ -45,4 +45,8 @@ RegexRouter::add('#^/j/review/(\d+)/full$#', function ($params) {
     $file = ROOT.'/_j_review/'.$id;
     readfile($file);
 }, 'GET');
+RegexRouter::add('#^/status$#', function ($params) {
+    $redis = Container::getInstance()->get('redis');
+    echo $redis->ping();
+}, 'GET');
 RegexRouter::run();
