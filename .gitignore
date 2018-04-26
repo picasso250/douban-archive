@@ -1,3 +1,5 @@
 _j_review/*
 _movie/*
 vendor
+public/*
+!public/index.php
